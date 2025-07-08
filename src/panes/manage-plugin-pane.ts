@@ -6,7 +6,6 @@ import { UIPane } from '&ui/pane';
 
 import { getSections } from '../changelog';
 
-import { ChangelogPane } from './changelog-pane';
 import { ManageCalloutsPane } from './manage-callouts-pane';
 
 export class ManagePluginPane extends UIPane {
@@ -82,30 +81,6 @@ export class ManagePluginPane extends UIPane {
 					plugin.refreshCalloutSources();
 				});
 			});
-
-		// -----------------------------------------------------------------------------------------------------
-		// Section: Changelog
-		// -----------------------------------------------------------------------------------------------------
-		new Setting(containerEl)
-			.setHeading()
-			.setName("What's New")
-			.setDesc(`Version ${this.plugin.manifest.version}`)
-			.addExtraButton((btn) => {
-				btn.setIcon('lucide-more-horizontal')
-					.setTooltip('More Changelogs')
-					.onClick(() => this.nav.open(new ChangelogPane(plugin)));
-			});
-
-		const latestChanges = getSections(this.root).get(this.plugin.manifest.version);
-		if (latestChanges != null) {
-			const desc = document.createDocumentFragment();
-			desc.appendChild(latestChanges.contentsEl);
-
-			new Setting(containerEl)
-				.setDesc(desc)
-				.then((setting) => setting.controlEl.remove())
-				.then((setting) => setting.settingEl.classList.add('calloutmanager-latest-changes'));
-		}
 
 		// -----------------------------------------------------------------------------------------------------
 		// Section: Export
